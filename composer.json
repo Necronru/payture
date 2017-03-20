@@ -1,18 +1,33 @@
 {
-    "name": "necronru/payture",
-    "description": "Payture SDK",
-    "type": "library",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Roman Toroshin",
-            "email": "necronru@gmail.com"
-        }
-    ],
-    "minimum-stability": "dev",
-    "require": {},
-    "require-dev": {
-        "phpunit/phpunit": "^5.7",
-        "symfony/var-dumper": "^3.2"
+  "name": "necronru/payture",
+  "description": "Payture SDK",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Roman Toroshin",
+      "email": "necronru@gmail.com"
     }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "symfony/http-foundation": "^2.8|^3.0",
+    "symfony/event-dispatcher": "^2.8|^3.0",
+    "guzzlehttp/guzzle": "^6.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^5.7",
+    "symfony/var-dumper": "^3.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Necronru\\Payture\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Necronru\\Payture\\Tests\\Unit\\": "tests/unit/",
+      "Necronru\\Payture\\Tests\\Fixture\\": "tests/fixture/"
+    }
+  }
 }
