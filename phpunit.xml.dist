@@ -1,0 +1,28 @@
+<phpunit bootstrap="./tests/bootstrap.php">
+    <php>
+        <!-- Or, specify each require parameter individually -->
+        <php>
+            <env name="APP_ENV" value="dev" />
+        </php>
+    </php>
+
+    <testsuites>
+        <testsuite name="necronru_payture">
+            <directory>tests/unit</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory suffix=".php">./src</directory>
+            <exclude>
+                <directory suffix=".php">./tests/unit</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+
+    <logging>
+        <log type="coverage-html" target="./tests/log/codeCoverage" charset="UTF-8" yui="true" highlight="true" lowUpperBound="50" highLowerBound="80"/>
+        <log type="testdox-html" target="./tests/log/testdox.html" />
+    </logging>
+</phpunit>
