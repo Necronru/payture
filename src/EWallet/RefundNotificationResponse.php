@@ -16,7 +16,8 @@ class RefundNotificationResponse extends AbstractEnum
 {
 
     const CUSTOMER_REFUND_SUCCESS   = 'CustomerRefundSuccess';
-    const ENGINE_REFUND_SUCCESS     = 'EngineRefundSuccess';
     const CUSTOMER_REFUND_FAIL      = 'CustomerRefundFail';
+
+    const ENGINE_REFUND_SUCCESS     = 'EngineRefundSuccess';
     const ENGINE_REFUND_FAIL        = 'EngineRefundFail';
 }
