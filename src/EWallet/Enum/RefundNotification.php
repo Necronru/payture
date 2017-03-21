@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Necronru\EWallet;
+namespace Necronru\EWallet\Enum;
 
 
 use Necronru\Payture\Abstraction\AbstractEnum;
@@ -12,7 +12,7 @@ use Necronru\Payture\Abstraction\AbstractEnum;
  *
  * @link http://payture.com/integration/api/#notifications_
  */
-class RefundNotificationResponse extends AbstractEnum
+class RefundNotification extends AbstractEnum
 {
 
     const CUSTOMER_REFUND_SUCCESS   = 'CustomerRefundSuccess';

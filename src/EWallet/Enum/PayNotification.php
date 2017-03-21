@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Necronru\EWallet;
+namespace Necronru\EWallet\Enum;
 
 
 use Necronru\Payture\Abstraction\AbstractEnum;
@@ -12,7 +12,7 @@ use Necronru\Payture\Abstraction\AbstractEnum;
  *
  * http://payture.com/integration/api/#notifications_
  */
-class PayNotificationResponse extends AbstractEnum
+class PayNotification extends AbstractEnum
 {
 
     const ENGINE_BLOCK_SUCCESS  = 'EngineBlockSuccess';
