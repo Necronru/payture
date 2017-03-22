@@ -37,4 +37,13 @@ abstract class AbstractEnum
     {
         return in_array($value, static::getItems());
     }
+
+    /**
+     * @param $value
+     * @return string
+     */
+    public static function getTitle($value)
+    {
+        return (array_key_exists($value, static::getTitles())) ? static::getTitles()[$value] : '';
+    }
 }

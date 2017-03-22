@@ -3,16 +3,15 @@
 
 namespace Necronru\Payture\EWallet\Command;
 
-use Necronru\EWallet\Enum\SessionType;
-
-
 /**
  * @link http://payture.com/integration/api/#ewallet_init_
  */
 class InitCommand
 {
     /**
-     * @var SessionType
+     * @var string
+     *
+     * @see \Necronru\Payture\EWallet\Enum\SessionType
      */
     public $SessionType;
 
@@ -62,7 +61,7 @@ class InitCommand
     public $Language;
 
     public function __construct(
-        SessionType $SessionType,
+        $SessionType,
         $VWUserLgn,
         $VWUserPsw,
         $IP,

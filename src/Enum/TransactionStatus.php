@@ -14,6 +14,8 @@ use Necronru\Payture\Abstraction\AbstractEnum;
  */
 class TransactionStatus extends AbstractEnum
 {
+    const SESSION_INITED = 'Session_Inited'; // fixme: недокументированный статус
+
     const STATUS_NEW                = 'New';
     const STATUS_PRE_AUTHORIZED_3DS = 'PreAuthorized3DS';
     const STATUS_PRE_AUTHORIZED_AF  = 'PreAuthorizedAF';
@@ -26,6 +28,7 @@ class TransactionStatus extends AbstractEnum
     const STATUS_ERROR              = 'Error';
 
     public static $titles = [
+        self::SESSION_INITED => 'Сессия установлена',
         self::STATUS_NEW => 'Платеж зарегистрирован в шлюзе, но его обработка в процессинге не начата',
         self::STATUS_PRE_AUTHORIZED_3DS => 'Пользователь начал аутентификацию по протоколу 3D Secure, на этом операции по платежу завершились',
         self::STATUS_PRE_AUTHORIZED_AF => 'Пользователь начал аутентификацию с помощью сервиса AntiFraud, на этом операции по платежу завершились',

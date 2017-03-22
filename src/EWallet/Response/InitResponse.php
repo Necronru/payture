@@ -51,4 +51,11 @@ class InitResponse
      */
     public $ErrCode;
 
+    /**
+     * Переданый тип сессии
+     *
+     * @var string
+     */
+    public $SessionType;
+
 }

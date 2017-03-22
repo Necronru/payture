@@ -21,8 +21,8 @@ interface EWalletInterface
     public function init(InitCommand $command);
 
     /**
-     * Вернет ссылку на страницу Payture, которая в свою очередь перенаправить покупателя
-     * на страницу ввода реквизитов карты (на стороне payture)
+     * Вернет ссылку и SessionId на страницу Payture, которая в свою очередь перенаправит покупателя
+     * на страницу ввода реквизитов карты (на стороне eWallet)
      *
      * @param PayCommand $command
      * @return string
@@ -42,7 +42,18 @@ interface EWalletInterface
     /**
      * @param RefundCommand $command
      * @return \Necronru\Payture\EWallet\Response\RefundResponse
+     *
      * @link http://payture.com/integration/api/#ewallet_refund_
      */
     public function refund(RefundCommand $command);
+
+    /**
+     * @param $VWUserLgn
+     * @param $VWUserPsw
+     *
+     * @return mixed
+     *
+     * @link http://payture.com/integration/api/#ewallet_ewallet-cards_getlist_
+     */
+    public function getCartList($VWUserLgn, $VWUserPsw);
 }
