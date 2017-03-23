@@ -4,15 +4,8 @@
 namespace Necronru\Payture\EWallet\Response;
 
 
-class RefundResponse
+class RefundResponse extends BaseResponse
 {
-    /**
-     * Флаг успешности операции
-     *
-     * @var boolean
-     */
-    public $Success;
-
     /**
      * Идентификатор платежа в системе ТСП.
      * Соответствует переданному в запросе.
@@ -29,14 +22,4 @@ class RefundResponse
      * @var int
      */
     public $NewAmount;
-
-    /**
-     * Код ошибки.
-     * Передается, если «Success=False»
-     *
-     * @var string
-     * @see \Necronru\Payture\Enum\ErrorCode
-     */
-    public $ErrCode;
-
 }

@@ -5,6 +5,7 @@ namespace Necronru\Payture\Tests\Unit\EWallet;
 
 
 use GuzzleHttp\Client;
+use Necronru\Payture\EWallet\Command\GetCardListCommand;
 use Necronru\Payture\EWallet\Command\InitCommand;
 use Necronru\Payture\EWallet\Command\PayCommand;
 use Necronru\Payture\EWallet\Command\PayStatusCommand;
@@ -104,10 +105,10 @@ class EWalletTest extends PaytureTestCase
         );
     }
 
-    public function testGetCartList()
+    public function testCartList()
     {
         $login = '123@ya.ru';
-        $response = $this->eWallet->getCartList($login, '2645363');
+        $response = $this->eWallet->cartList(new GetCardListCommand($login, '2645363'));
 
         static::assertEquals('True', $response->Success);
         static::assertEquals($login, $response->VWUserLgn);
@@ -169,8 +170,21 @@ class EWalletTest extends PaytureTestCase
 //        dump(TransactionStatus::getTitle($response->Status), $response);
     }
 
+    public function refundProvider()
+    {
+        return [
+            [
+                'OrderId' => uniqid('test_'),
+                'Amount' => '100'
+            ]
+        ];
+    }
+
     /**
+     * @dataProvider refundProvider
+     *
      * @expectedException \Necronru\Payture\EWallet\Exception\EWalletError
+     * @expectedExceptionCode 34
      */
     public function testRefund()
     {

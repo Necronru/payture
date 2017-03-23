@@ -7,15 +7,8 @@ namespace Necronru\Payture\EWallet\Response;
 /**
  * @link http://payture.com/integration/api/#ewallet_init_
  */
-class InitResponse
+class InitResponse extends BaseResponse
 {
-    /**
-     * Флаг успешности операции
-     *
-     * @var boolean
-     */
-    public $Success;
-
     /**
      * Идентификатор платежа в системе Продавца.
      * Передается, если «Success=True» и «SessionType=Pay»
@@ -41,15 +34,6 @@ class InitResponse
      * @var string
      */
     public $SessionId;
-
-    /**
-     * Код ошибки.
-     * Передается, если «Success=False»
-     *
-     * @var string
-     * @see \Necronru\Payture\Enum\ErrorCode
-     */
-    public $ErrCode;
 
     /**
      * Переданый тип сессии

@@ -7,18 +7,20 @@ namespace Necronru\Payture\EWallet;
 use GuzzleHttp\ClientInterface;
 use Necronru\Payture\Abstraction\EWalletInterface;
 use Necronru\Payture\Enum\ErrorCode;
+use Necronru\Payture\EWallet\Command\GetCardListCommand;
 use Necronru\Payture\EWallet\Command\InitCommand;
 use Necronru\Payture\EWallet\Command\PayCommand;
 use Necronru\Payture\EWallet\Command\PayStatusCommand;
 use Necronru\Payture\EWallet\Command\RefundCommand;
 use Necronru\Payture\EWallet\Exception\EWalletError;
 use Necronru\Payture\EWallet\Exception\EWalletException;
-use Necronru\Payture\EWallet\Response\GetCardList\GetList;
 use Necronru\Payture\EWallet\Response\GetCardList\Item;
 use Necronru\Payture\EWallet\Response\InitResponse;
 use Necronru\Payture\EWallet\Response\PayStatusResponse;
 use Necronru\Payture\EWallet\Response\RefundResponse;
+use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 class EWallet implements EWalletInterface
 {
@@ -58,36 +60,7 @@ class EWallet implements EWalletInterface
      */
     public function init(InitCommand $command)
     {
-        $response = $this->client->request('POST', '/vwapi/Init', [
-            'form_params' => $this->prepareFormData(get_object_vars($command))
-        ]);
-
-        $contents = $response->getBody()->getContents();
-
-        $accessor = PropertyAccess::createPropertyAccessor();
-        $data     = json_decode(json_encode((array) simplexml_load_string($contents)), 1);
-
-        $status = strtolower($accessor->getValue($data, '[@attributes][Success]'));
-
-        if ('true' === $status) {
-
-            $object = new InitResponse();
-            $attributes = $accessor->getValue($data, '[@attributes]');
-
-            foreach ($attributes as $key => $value) {
-                $object->{$key} = $value;
-            }
-
-            return $object;
-        }
-
-        $errCode = $accessor->getValue($data, '[@attributes][ErrCode]');
-
-        if ('false' === $status) {
-            throw new EWalletError(ErrorCode::getTitle($errCode));
-        }
-
-        throw new EWalletException(sprintf('Неизвестный статус в ответе: "%s"', $errCode));
+        return $this->executeCommand($command, InitResponse::class, '/vwapi/Init');
     }
 
     /**
@@ -103,36 +76,7 @@ class EWallet implements EWalletInterface
      */
     public function payStatus(PayStatusCommand $command)
     {
-        $response = $this->client->request('POST', '/vwapi/PayStatus', [
-            'form_params' => $this->prepareFormData(get_object_vars($command))
-        ]);
-
-        $contents = $response->getBody()->getContents();
-
-        $accessor = PropertyAccess::createPropertyAccessor();
-        $data     = json_decode(json_encode((array) simplexml_load_string($contents)), 1);
-
-        $status = strtolower($accessor->getValue($data, '[@attributes][Success]'));
-
-        if ('true' === $status) {
-
-            $object = new PayStatusResponse();
-            $attributes = $accessor->getValue($data, '[@attributes]');
-
-            foreach ($attributes as $key => $value) {
-                $object->{$key} = $value;
-            }
-
-            return $object;
-        }
-
-        $errCode = $accessor->getValue($data, '[@attributes][ErrCode]');
-
-        if ('false' === $status) {
-            throw new EWalletError(ErrorCode::getTitle($errCode));
-        }
-
-        throw new EWalletException(sprintf('Неизвестный статус в ответе: "%s"', $errCode));
+        return $this->executeCommand($command, PayStatusResponse::class, '/vwapi/PayStatus');
     }
 
     /**
@@ -140,69 +84,18 @@ class EWallet implements EWalletInterface
      */
     public function refund(RefundCommand $command)
     {
-        $response = $this->client->request('POST', '/vwapi/Refund', [
-            'form_params' => $this->prepareFormData(
-                array_merge(['Password' => $this->vmPassword], get_object_vars($command))
-            )
-        ]);
-
-        $contents = $response->getBody()->getContents();
-
-        $accessor = PropertyAccess::createPropertyAccessor();
-        $data     = json_decode(json_encode((array) simplexml_load_string($contents)), 1);
-
-        $status = strtolower($accessor->getValue($data, '[@attributes][Success]'));
-
-        if ('true' === $status) {
-
-            $object = new RefundResponse();
-            $attributes = $accessor->getValue($data, '[@attributes]');
-
-            foreach ($attributes as $key => $value) {
-                $object->{$key} = $value;
-            }
-
-            return $object;
-        }
-
-        $errCode = $accessor->getValue($data, '[@attributes][ErrCode]');
-
-        if ('false' === $status) {
-            throw new EWalletError(ErrorCode::getTitle($errCode));
-        }
-
-        throw new EWalletException(sprintf('Неизвестный статус в ответе: "%s"', $errCode));
+        return $this->executeCommand($command, RefundResponse::class, '/vwapi/Refund', function($data) {
+            return array_merge(['Password' => $this->vmPassword], $data);
+        });
     }
 
     /**
      * @inheritdoc
      */
-    public function getCartList($VWUserLgn, $VWUserPsw)
+    public function cartList(GetCardListCommand $command)
     {
-        $response = $this->client->request('POST', '/vwapi/GetList', [
-            'form_params' => $this->prepareFormData([
-                'VWUserLgn' => $VWUserLgn,
-                'VWUserPsw' => $VWUserPsw
-            ])
-        ]);
-
-        $contents = $response->getBody()->getContents();
-
-        $accessor = PropertyAccess::createPropertyAccessor();
-        $data     = json_decode(json_encode((array) simplexml_load_string($contents)), 1);
-
-        $status = strtolower($accessor->getValue($data, '[@attributes][Success]'));
-
-        if ('true' === $status) {
-
-            $object = new GetList();
-            $attributes = $accessor->getValue($data, '[@attributes]');
-
-            foreach ($attributes as $key => $value) {
-                $object->{$key} = $value;
-            }
-
-            $object->Item = array_map(function($arr) use ($accessor) {
+        return $this->executeCommand($command, RefundResponse::class, '/vwapi/GetList', null, function ($object, $data, PropertyAccessor $accessor) {
+            $object->Item = array_map(function ($arr) use ($accessor) {
 
                 $item = new Item();
 
@@ -212,22 +105,18 @@ class EWallet implements EWalletInterface
 
                 return $item;
 
-            }, (array) $accessor->getValue($data, '[Item]'));
+            }, (array)$accessor->getValue($data, '[Item]'));
 
             return $object;
-        }
-
-        $errCode = $accessor->getValue($data, '[@attributes][ErrCode]');
-
-        if ('false' === $status) {
-            throw new EWalletError(ErrorCode::getTitle($errCode));
-        }
-
-        throw new EWalletException(sprintf('Неизвестный статус в ответе: "%s"', $errCode));
+        });
     }
 
-    protected function prepareFormData($data)
+    protected function prepareFormData($data, callable $fn = null)
     {
+        if (is_callable($fn)) {
+            $data = $fn($data);
+        }
+
         return [
             'VWID' => $this->getVmId(),
             'DATA' => http_build_query($data, null, ';')
@@ -237,8 +126,53 @@ class EWallet implements EWalletInterface
     /**
      * @return string
      */
-    protected function getVmId()
+    public function getVmId()
     {
         return $this->vmId;
+    }
+
+    protected function executeCommand($command, $responseClass, $uri, callable $prepareFormDataCallback = null, callable $responseCallback = null)
+    {
+        $data = get_object_vars($command);
+
+        $response = $this->client->request('POST', $uri, [
+            'form_params' => $this->prepareFormData($data, $prepareFormDataCallback)
+        ]);
+
+        return $this->prepareResponse($response, $responseClass, $responseCallback);
+    }
+
+
+    private function prepareResponse(ResponseInterface $response, $responseClass, callable $fn = null)
+    {
+        $contents = $response->getBody()->getContents();
+
+        $accessor = PropertyAccess::createPropertyAccessor();
+        $data = json_decode(json_encode((array)simplexml_load_string($contents)), 1);
+
+        $Success = strtolower($accessor->getValue($data, '[@attributes][Success]'));
+        $ErrCode = $accessor->getValue($data, '[@attributes][ErrCode]');
+
+        if ('true' === $Success) {
+
+            $object = new $responseClass();
+            $attributes = $accessor->getValue($data, '[@attributes]');
+
+            foreach ($attributes as $key => $value) {
+                $object->{$key} = $value;
+            }
+
+            if (is_callable($fn)) {
+                $fn($object, $data, $accessor);
+            }
+
+            return $object;
+        }
+
+        if (!empty($ErrCode) && array_key_exists($ErrCode, ErrorCode::$codes)) {
+            throw new EWalletError(ErrorCode::getTitle($ErrCode), ErrorCode::$codes[$ErrCode]);
+        }
+
+        throw new EWalletException(sprintf('Неизвестный статус в ответе: "%s"', $ErrCode));
     }
 }

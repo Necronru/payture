@@ -4,6 +4,7 @@
 namespace Necronru\Payture\Abstraction;
 
 
+use Necronru\Payture\EWallet\Command\GetCardListCommand;
 use Necronru\Payture\EWallet\Command\InitCommand;
 use Necronru\Payture\EWallet\Command\PayCommand;
 use Necronru\Payture\EWallet\Command\PayStatusCommand;
@@ -11,7 +12,6 @@ use Necronru\Payture\EWallet\Command\RefundCommand;
 
 interface EWalletInterface
 {
-
     /**
      * @param InitCommand $command
      * @return \Necronru\Payture\EWallet\Response\InitResponse
@@ -48,12 +48,9 @@ interface EWalletInterface
     public function refund(RefundCommand $command);
 
     /**
-     * @param $VWUserLgn
-     * @param $VWUserPsw
-     *
-     * @return mixed
-     *
+     * @param GetCardListCommand $command
+     * @return \Necronru\Payture\EWallet\Response\GetCardList\GetList
      * @link http://payture.com/integration/api/#ewallet_ewallet-cards_getlist_
      */
-    public function getCartList($VWUserLgn, $VWUserPsw);
+    public function cartList(GetCardListCommand $command);
 }

@@ -1,18 +1,14 @@
 <?php
+
 namespace Necronru\Payture\EWallet\Response\GetCardList;
+
+use Necronru\Payture\EWallet\Response\BaseResponse;
 
 /**
  * @link http://payture.com/integration/api/#ewallet_init_
  */
-class GetList
+class GetList extends BaseResponse
 {
-    /**
-     * Флаг успешности операции
-     *
-     * @var boolean
-     */
-    public $Success;
-
     /**
      * Идентификатор Пользователя в системе Payture    Соответствует переданному в запросе
      *
@@ -26,11 +22,4 @@ class GetList
      * @var Item[]
      */
     public $Item = [];
-
-    /**
-     * Код ошибки. Передается, если «Success=False»
-     *
-     * @var string
-     */
-    public $ErrCode;
 }

@@ -4,11 +4,8 @@
 namespace Necronru\Payture\EWallet\Response;
 
 
-class PayStatusResponse
+class PayStatusResponse extends BaseResponse
 {
-
-    public $Success;
-
     /**
      * Текущий статус платежа.
      * Передается, если «Success=True».
@@ -39,14 +36,4 @@ class PayStatusResponse
      * Передается, если «Success=True».
      */
     public $CardId;
-
-    /**
-     * Код ошибки.
-     * Передается, если «Success=False»
-     *
-     * @var string
-     * @see \Necronru\Payture\Enum\ErrorCode
-     */
-    public $ErrCode;
-
 }
