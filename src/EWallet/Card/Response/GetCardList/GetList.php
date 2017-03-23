@@ -1,8 +1,8 @@
 <?php
 
-namespace Necronru\Payture\EWallet\Response\GetCardList;
+namespace Necronru\Payture\EWallet\Card\Response\GetCardList;
 
-use Necronru\Payture\EWallet\Response\BaseResponse;
+use Necronru\Payture\EWallet\Payment\Response\BaseResponse;
 
 /**
  * @link http://payture.com/integration/api/#ewallet_init_

@@ -1,20 +1,19 @@
 <?php
 
 
-namespace Necronru\Payture\Abstraction;
+namespace Necronru\Payture\EWallet\Payment;
 
 
-use Necronru\Payture\EWallet\Command\GetCardListCommand;
-use Necronru\Payture\EWallet\Command\InitCommand;
-use Necronru\Payture\EWallet\Command\PayCommand;
-use Necronru\Payture\EWallet\Command\PayStatusCommand;
-use Necronru\Payture\EWallet\Command\RefundCommand;
+use Necronru\Payture\EWallet\Payment\Command\InitCommand;
+use Necronru\Payture\EWallet\Payment\Command\PayCommand;
+use Necronru\Payture\EWallet\Payment\Command\PayStatusCommand;
+use Necronru\Payture\EWallet\Payment\Command\RefundCommand;
 
-interface EWalletInterface
+interface PaymentServiceInterface
 {
     /**
      * @param InitCommand $command
-     * @return \Necronru\Payture\EWallet\Response\InitResponse
+     * @return \Necronru\Payture\EWallet\Payment\Response\InitResponse
      *
      * @link http://payture.com/integration/api/#ewallet_init_
      */
@@ -33,7 +32,7 @@ interface EWalletInterface
 
     /**
      * @param PayStatusCommand $command
-     * @return \Necronru\Payture\EWallet\Response\PayStatusResponse
+     * @return \Necronru\Payture\EWallet\Payment\Response\PayStatusResponse
      *
      * @link http://payture.com/integration/api/#ewallet_paystatus_
      */
@@ -41,16 +40,25 @@ interface EWalletInterface
 
     /**
      * @param RefundCommand $command
-     * @return \Necronru\Payture\EWallet\Response\RefundResponse
+     * @return \Necronru\Payture\EWallet\Payment\Response\RefundResponse
      *
      * @link http://payture.com/integration/api/#ewallet_refund_
      */
     public function refund(RefundCommand $command);
 
     /**
-     * @param GetCardListCommand $command
-     * @return \Necronru\Payture\EWallet\Response\GetCardList\GetList
-     * @link http://payture.com/integration/api/#ewallet_ewallet-cards_getlist_
+     * @link http://payture.com/integration/api/#ewallet_sendcode_
      */
-    public function cartList(GetCardListCommand $command);
+    public function sendCode();
+
+    /**
+     * @link http://payture.com/integration/api/#ewallet_unblock_
+     */
+    public function unblock();
+
+    /**
+     * @link http://payture.com/integration/api/#ewallet_charge_
+     */
+    public function charge();
+
 }

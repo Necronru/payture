@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Necronru\EWallet\Enum;
+namespace Necronru\EWallet\Payment\Enum;
 
 
 use Necronru\Payture\Abstraction\AbstractEnum;

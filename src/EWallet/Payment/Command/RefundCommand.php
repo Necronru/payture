@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Necronru\Payture\EWallet\Command;
+namespace Necronru\Payture\EWallet\Payment\Command;
 
 
 class RefundCommand

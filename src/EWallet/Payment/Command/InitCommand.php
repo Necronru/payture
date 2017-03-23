@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Necronru\Payture\EWallet\Command;
+namespace Necronru\Payture\EWallet\Payment\Command;
 
 /**
  * @link http://payture.com/integration/api/#ewallet_init_
@@ -11,7 +11,7 @@ class InitCommand
     /**
      * @var string
      *
-     * @see \Necronru\Payture\EWallet\Enum\SessionType
+     * @see \Necronru\Payture\EWallet\Payment\Enum\SessionType
      */
     public $SessionType;
 

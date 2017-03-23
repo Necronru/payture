@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Necronru\Payture\EWallet\Command;
+namespace Necronru\Payture\EWallet\Card\Command;
 
 /**
  * @link http://payture.com/integration/api/#ewallet_init_

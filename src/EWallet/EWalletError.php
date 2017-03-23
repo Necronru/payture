@@ -1,6 +1,6 @@
 <?php
 
-namespace Necronru\Payture\EWallet\Exception;
+namespace Necronru\Payture\EWallet;
 
 class EWalletError extends \Exception
 {

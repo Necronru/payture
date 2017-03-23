@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Necronru\Payture\EWallet\Response;
+namespace Necronru\Payture\EWallet\Payment\Response;
 
 
 /**

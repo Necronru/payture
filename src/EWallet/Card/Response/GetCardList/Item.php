@@ -1,6 +1,6 @@
 <?php
 
-namespace Necronru\Payture\EWallet\Response\GetCardList;
+namespace Necronru\Payture\EWallet\Card\Response\GetCardList;
 
 class Item
 {
