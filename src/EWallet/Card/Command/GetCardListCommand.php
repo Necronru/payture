@@ -8,7 +8,14 @@ namespace Necronru\Payture\EWallet\Card\Command;
  */
 class GetCardListCommand
 {
+    /**
+     * @var string
+     */
     public $VWUserLgn;
+
+    /**
+     * @var string
+     */
     public $VWUserPsw;
 
     public function __construct($VMUserLgn, $VMUserPsw)

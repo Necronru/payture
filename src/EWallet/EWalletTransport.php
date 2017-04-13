@@ -61,10 +61,10 @@ class EWalletTransport
 
     public function executeCommand($command, $responseClass, $uri, callable $prepareFormDataCallback = null, callable $responseCallback = null)
     {
-        $data = get_object_vars($command);
+        $formData = $this->prepareFormData(get_object_vars($command), $prepareFormDataCallback);
 
         $response = $this->_client->request('POST', $uri, [
-            'form_params' => $this->prepareFormData($data, $prepareFormDataCallback)
+            'form_params' => $formData
         ]);
 
         return $this->prepareResponse($response, $responseClass, $responseCallback);
@@ -72,14 +72,18 @@ class EWalletTransport
 
     protected function prepareFormData($data, callable $fn = null)
     {
+
+        $formData = [
+            'VWID' => $this->getVmId()
+        ];
+
         if (is_callable($fn)) {
-            $data = $fn($data);
+            $formData = $fn($data, $formData);
+        } else {
+            $formData['DATA'] = http_build_query($data, null, ';');
         }
 
-        return [
-            'VWID' => $this->getVmId(),
-            'DATA' => http_build_query($data, null, ';')
-        ];
+        return $formData;
     }
 
     protected function prepareResponse(ResponseInterface $response, $responseClass, callable $fn = null)

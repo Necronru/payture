@@ -4,17 +4,28 @@
 namespace Necronru\Payture\EWallet\Payment;
 
 
+use Necronru\Payture\EWallet\Payment\Command\ChargeCommand;
 use Necronru\Payture\EWallet\Payment\Command\InitCommand;
 use Necronru\Payture\EWallet\Payment\Command\PayCommand;
 use Necronru\Payture\EWallet\Payment\Command\PayStatusCommand;
 use Necronru\Payture\EWallet\Payment\Command\RefundCommand;
+use Necronru\Payture\EWallet\Payment\Command\UnblockCommand;
+use Necronru\Payture\EWallet\Payment\Response\ChargeResponse;
 use Necronru\Payture\EWallet\Payment\Response\InitResponse;
 use Necronru\Payture\EWallet\Payment\Response\PayStatusResponse;
 use Necronru\Payture\EWallet\Payment\Response\RefundResponse;
 use Necronru\Payture\EWallet\EWalletTransport;
+use Necronru\Payture\EWallet\Payment\Response\UnblockResponse;
 
 class PaymentService implements PaymentServiceInterface
 {
+    const METHOD_INIT = '/vwapi/Init';
+    const METHOD_PAY = '/vwapi/Pay';
+    const METHOD_STATUS = '/vwapi/PayStatus';
+    const METHOD_REFUND = '/vwapi/Refund';
+    const METHOD_CHARGE = '/vwapi/Charge';
+    const METHOD_UNBLOCK = '/vwapi/Unblock';
+
 
     /**
      * @var EWalletTransport
@@ -31,15 +42,21 @@ class PaymentService implements PaymentServiceInterface
      */
     public function init(InitCommand $command)
     {
-        return $this->_transport->executeCommand($command, InitResponse::class, '/vwapi/Init');
+        return $this->_transport->executeCommand($command, InitResponse::class, self::METHOD_INIT);
     }
 
     /**
      * @inheritdoc
      */
-    public function pay(PayCommand $command)
+    public function getPayLink($sessionId, $host = true)
     {
-        return $this->_transport->getClient()->getConfig('base_uri') . 'vwapi/Pay' . '?' . http_build_query($command);
+        return ($host ? $this->_transport->getClient()->getConfig('base_uri') : '')
+            . self::METHOD_PAY
+            . '?'
+            . http_build_query([
+                'SessionId' => $sessionId
+            ])
+        ;
     }
 
     /**
@@ -47,7 +64,7 @@ class PaymentService implements PaymentServiceInterface
      */
     public function payStatus(PayStatusCommand $command)
     {
-        return $this->_transport->executeCommand($command, PayStatusResponse::class, '/vwapi/PayStatus');
+        return $this->_transport->executeCommand($command, PayStatusResponse::class, self::METHOD_STATUS);
     }
 
     /**
@@ -55,8 +72,11 @@ class PaymentService implements PaymentServiceInterface
      */
     public function refund(RefundCommand $command)
     {
-        return $this->_transport->executeCommand($command, RefundResponse::class, '/vwapi/Refund', function ($data) {
-            return array_merge(['Password' => $this->_transport->getVmPassword()], $data);
+        return $this->_transport->executeCommand($command, RefundResponse::class, self::METHOD_REFUND, function ($data, $formData) {
+            return array_merge(
+                $formData,
+                ['DATA' => http_build_query(array_merge(['Password' => $this->_transport->getVmPassword()], $data), null, ';')]
+            );
         });
     }
 
@@ -71,16 +91,32 @@ class PaymentService implements PaymentServiceInterface
     /**
      * @inheritdoc
      */
-    public function unblock()
+    public function unblock(UnblockCommand $command)
     {
-        // TODO: Implement unblock() method.
+        return $this->_transport->executeCommand($command, UnblockResponse::class, self::METHOD_UNBLOCK, function ($data, $formData) {
+            $data = array_merge(
+                $formData,
+                $data,
+                ['Password' => $this->_transport->getVmPassword()]
+            );
+
+            return $data;
+        });
     }
 
     /**
      * @inheritdoc
      */
-    public function charge()
+    public function charge(ChargeCommand $command)
     {
-        // TODO: Implement charge() method.
+        return $this->_transport->executeCommand($command, ChargeResponse::class, self::METHOD_CHARGE, function ($data, $formData) {
+            $data = array_merge(
+                $formData,
+                $data,
+                ['Password' => $this->_transport->getVmPassword()]
+            );
+
+            return $data;
+        });
     }
 }
