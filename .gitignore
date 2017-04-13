@@ -2,3 +2,7 @@
 composer.lock
 tests/log/*
 vendor/*
+/bin/
+
+tests/_output/*
+tests/_output/*

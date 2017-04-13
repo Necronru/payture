@@ -14,4 +14,4 @@ cache:
   directories:
     - $HOME/.composer/cache
 
-script: vendor/bin/phpunit --debug --no-coverage
+script: bin/codecept run
