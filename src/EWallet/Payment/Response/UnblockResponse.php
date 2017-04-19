@@ -4,7 +4,9 @@
 namespace Necronru\Payture\EWallet\Payment\Response;
 
 
-class UnblockResponse extends BaseResponse
+use Necronru\Payture\EWallet\Response\AbstractResponse;
+
+class UnblockResponse extends AbstractResponse
 {
     /**
      * Идентификатор платежа в системе ТСП.

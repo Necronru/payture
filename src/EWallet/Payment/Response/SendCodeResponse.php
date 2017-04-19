@@ -4,7 +4,9 @@
 namespace Necronru\Payture\EWallet\Payment\Response;
 
 
-class SendCodeResponse extends BaseResponse
+use Necronru\Payture\EWallet\Response\AbstractResponse;
+
+class SendCodeResponse extends AbstractResponse
 {
     /**
      * Идентификатор Покупателя в системе Payture

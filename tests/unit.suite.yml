@@ -6,7 +6,4 @@ class_name: UnitTester
 modules:
     enabled:
         - Asserts
-        - WebDriver:
-              url: https://sandbox2.payture.com
-              browser: chrome
         - \Helper\Unit

@@ -4,7 +4,9 @@
 namespace Necronru\Payture\EWallet\Payment\Response;
 
 
-class PayStatusResponse extends BaseResponse
+use Necronru\Payture\EWallet\Response\AbstractResponse;
+
+class PayStatusResponse extends AbstractResponse
 {
     /**
      * Текущий статус платежа.

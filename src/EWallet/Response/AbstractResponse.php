@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Necronru\Payture\EWallet\Payment\Response;
+namespace Necronru\Payture\EWallet\Response;
 
 
-class BaseResponse
+abstract class AbstractResponse
 {
     /**
      * Флаг успешности операции

@@ -9,3 +9,8 @@ modules:
     enabled:
         # add framework module here
         - \Helper\Functional
+        - Asserts
+        - WebDriver:
+              url: https://sandbox2.payture.com
+              browser: chrome
+        - \Helper\Unit

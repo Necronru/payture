@@ -4,7 +4,9 @@
 namespace Necronru\Payture\EWallet\Payment\Response;
 
 
-class RefundResponse extends BaseResponse
+use Necronru\Payture\EWallet\Response\AbstractResponse;
+
+class RefundResponse extends AbstractResponse
 {
     /**
      * Идентификатор платежа в системе ТСП.

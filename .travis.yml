@@ -14,4 +14,4 @@ cache:
   directories:
     - $HOME/.composer/cache
 
-script: bin/codecept run
+script: bin/codecept build && bin/codecept run unit

@@ -2,12 +2,13 @@
 
 
 namespace Necronru\Payture\EWallet\Payment\Response;
+use Necronru\Payture\EWallet\Response\AbstractResponse;
 
 
 /**
  * @link http://payture.com/integration/api/#ewallet_init_
  */
-class InitResponse extends BaseResponse
+class InitResponse extends AbstractResponse
 {
     /**
      * Идентификатор платежа в системе Продавца.

@@ -6,7 +6,6 @@ namespace Necronru\Payture\EWallet\Payment;
 
 use Necronru\Payture\EWallet\Payment\Command\ChargeCommand;
 use Necronru\Payture\EWallet\Payment\Command\InitCommand;
-use Necronru\Payture\EWallet\Payment\Command\PayCommand;
 use Necronru\Payture\EWallet\Payment\Command\PayStatusCommand;
 use Necronru\Payture\EWallet\Payment\Command\RefundCommand;
 use Necronru\Payture\EWallet\Payment\Command\UnblockCommand;
