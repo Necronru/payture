@@ -17,9 +17,9 @@ class ChargeTest extends AbstractPaymentTest
     {
         $response = $this->eWallet->payment()->init(new InitCommand(
             SessionType::BLOCK,
+            '98.132.229.220',
             '123@ya.ru',
             '2645363',
-            '98.132.229.220',
             uniqid('test_'),
             500,
             '79001234567'

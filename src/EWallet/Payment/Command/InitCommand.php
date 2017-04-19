@@ -86,9 +86,9 @@ class InitCommand
 
     public function __construct(
         $SessionType,
-        $VWUserLgn,
-        $VWUserPsw,
         $IP,
+        $VWUserLgn,
+        $VWUserPsw = null,
         $OrderId = null,
         $Amount = null,
         $PhoneNumber = null,
