@@ -8,6 +8,7 @@ use Necronru\Payture\EWallet\Card\Response\GetCardList\Item;
 use Necronru\Payture\EWallet\Payment\Response\RefundResponse;
 use Necronru\Payture\EWallet\EWalletTransport;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
+use Necronru\Payture\EWallet\Card\Response\GetCardList\GetList;
 
 class CardService implements CardServiceInterface
 {
@@ -26,7 +27,7 @@ class CardService implements CardServiceInterface
      */
     public function getList(GetCardListCommand $command)
     {
-        return $this->_transport->executeCommand($command, RefundResponse::class, '/vwapi/GetList', null, function ($object, $data, PropertyAccessor $accessor) {
+        return $this->_transport->executeCommand($command, GetList::class, '/vwapi/GetList', null, function ($object, $data, PropertyAccessor $accessor) {
             $object->Item = array_map(function ($arr) use ($accessor) {
 
                 $item = new Item();
