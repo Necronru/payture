@@ -84,8 +84,16 @@ class InitCommand
      */
     public $Language;
 
+    /**
+     * Пример ссылки http://localhost?order={orderid}&success={success}
+     *
+     * @var string
+     */
+    public $Url;
+
     public function __construct(
         $SessionType,
+        $Url,
         $IP,
         $VWUserLgn,
         $VWUserPsw = null,
@@ -107,6 +115,7 @@ class InitCommand
         $this->CardId = $CardId;
         $this->TemplateTag = $TemplateTag;
         $this->Language = $Language;
+        $this->Url = $Url;
     }
 
 

@@ -17,6 +17,7 @@ class PayTest extends AbstractPaymentTest
     {
         $response = $this->eWallet->payment()->init(new InitCommand(
             SessionType::PAY,
+            'http://localhost:8000?order={orderid}&success={success}',
             '98.132.229.220',
             '123@ya.ru',
             '2645363',
