@@ -47,7 +47,7 @@ class PaymentService implements PaymentServiceInterface
     /**
      * @inheritdoc
      */
-    public function getPayLink($sessionId, $host = true)
+    public function getSessionLink($sessionId, $host = true)
     {
         return ($host ? $this->_transport->getClient()->getConfig('base_uri') : '')
             . self::METHOD_PAY

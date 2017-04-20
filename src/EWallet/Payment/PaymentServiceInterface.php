@@ -31,7 +31,7 @@ interface PaymentServiceInterface
      *
      * @link http://payture.com/integration/api/#ewallet_pay_payture-side_
      */
-    public function getPayLink($sessionId);
+    public function getSessionLink($sessionId);
 
     /**
      * @param PayStatusCommand $command

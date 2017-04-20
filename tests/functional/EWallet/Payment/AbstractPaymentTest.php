@@ -26,7 +26,7 @@ class AbstractPaymentTest extends Unit
 
     protected function pay($sessionId)
     {
-        $uri = $this->eWallet->payment()->getPayLink($sessionId, false);
+        $uri = $this->eWallet->payment()->getSessionLink($sessionId, false);
 
         static::assertNotEmpty($uri);
 
