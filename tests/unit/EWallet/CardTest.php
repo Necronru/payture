@@ -7,12 +7,21 @@ use Necronru\Payture\EWallet\EWallet;
 
 class CardTest extends \Codeception\Test\Unit
 {
+    /**
+     * @var EWallet
+     */
+    private $service;
+
+    protected function _before()
+    {
+        $this->service = new EWallet(new Client(['base_uri' => $_ENV['PAYTURE_API']]), $_ENV['PAYTURE_TERMINAL_ID'], $_ENV['PAYTURE_TERMINAL_PASSWORD']);
+    }
+
+
     public function testCartList()
     {
-        $eWallet = new EWallet(new Client(['base_uri' => 'https://sandbox2.payture.com/']), 'Merchant', '123');
-
         $login = '123@ya.ru';
-        $response = $eWallet->card()->getList(new GetCardListCommand($login, '2645363'));
+        $response = $this->service->card()->getList(new GetCardListCommand($login, '2645363'));
 
         static::assertEquals('True', $response->Success);
         static::assertEquals($login, $response->VWUserLgn);

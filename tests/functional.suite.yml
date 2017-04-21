@@ -10,7 +10,7 @@ modules:
         # add framework module here
         - \Helper\Functional
         - Asserts
-        - WebDriver:
-              url: https://sandbox2.payture.com
-              browser: chrome
         - \Helper\Unit
+        - \Helper\EWalletHelper:
+              url: "%PAYTURE_API%"
+              browser: "%BROWSER%"

@@ -17,7 +17,7 @@ class PayTest extends AbstractPaymentTest
     {
         $response = $this->eWallet->payment()->init(new InitCommand(
             SessionType::PAY,
-            'http://localhost:8000?order={orderid}&success={success}',
+            $_ENV['PAYTURE_CALLBACK_URL'],
             '98.132.229.220',
             '123@ya.ru',
             '2645363',
@@ -47,19 +47,21 @@ class PayTest extends AbstractPaymentTest
      */
     public function testPay($response)
     {
-        $this->pay($response->SessionId);
-        return $this->checkStatus($response->OrderId, TransactionStatus::STATUS_CHARGED);
+        $this->tester->amPay($this->eWallet, $response->SessionId, $response->OrderId, TransactionStatus::STATUS_CHARGED);
+
+        return ['OrderId' => $response->OrderId, 'Amount' => $response->Amount];
     }
 
     /**
      * @depends testPay
      * @group pay
-     * @param PayStatusResponse $response
+     * @param array $parameters
      */
-    public function testRefund($response)
+    public function testRefund($parameters)
     {
-        $response = $this->eWallet->payment()->refund(new RefundCommand($response->OrderId, $response->Amount));
+        $I = $this->tester;
+        $response = $this->eWallet->payment()->refund(new RefundCommand($parameters['OrderId'], $parameters['Amount']));
 
-        $this->checkStatus($response->OrderId, TransactionStatus::STATUS_REFUNDED);
+        $I->amCheckOrder($this->eWallet, $parameters['OrderId'], TransactionStatus::STATUS_REFUNDED);
     }
 }

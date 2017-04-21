@@ -21,7 +21,8 @@
   },
   "require-dev": {
     "symfony/var-dumper": "^3.2",
-    "codeception/codeception": "^2.2"
+    "codeception/codeception": "^2.2",
+    "vlucas/phpdotenv": "^2.4"
   },
   "autoload": {
     "psr-4": {

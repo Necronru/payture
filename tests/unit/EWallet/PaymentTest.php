@@ -9,16 +9,24 @@ use Necronru\Payture\EWallet\Payment\Response\InitResponse;
 class PaymentTest extends \Codeception\Test\Unit
 {
     /**
+     * @var EWallet
+     */
+    private $service;
+
+    protected function _before()
+    {
+        $this->service = new EWallet(new Client(['base_uri' => $_ENV['PAYTURE_API']]), $_ENV['PAYTURE_TERMINAL_ID'], $_ENV['PAYTURE_TERMINAL_PASSWORD']);
+    }
+
+    /**
      * @group pay
      * @return mixed|InitResponse
      */
     public function testInit()
     {
-        $eWallet = new EWallet(new Client(['base_uri' => 'https://sandbox2.payture.com/']), 'Merchant', '123');
-
-        $response = $eWallet->payment()->init(new InitCommand(
+        $response = $this->service->payment()->init(new InitCommand(
             SessionType::PAY,
-            'http://localhost:8000?order={orderid}&success={success}',
+            $_ENV['PAYTURE_CALLBACK_URL'],
             '98.132.229.220',
             '123@ya.ru',
             '2645363',

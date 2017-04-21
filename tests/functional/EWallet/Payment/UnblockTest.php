@@ -17,7 +17,7 @@ class UnblockTest extends AbstractPaymentTest
     {
         $response = $this->eWallet->payment()->init(new InitCommand(
             SessionType::BLOCK,
-            'http://localhost:8000?order={orderid}&success={success}',
+            $_ENV['PAYTURE_CALLBACK_URL'],
             '98.132.229.220',
             '123@ya.ru',
             '2645363',
@@ -43,28 +43,30 @@ class UnblockTest extends AbstractPaymentTest
      * @group block
      * @param InitResponse $response
      *
-     * @return PayStatusResponse
+     * @return array
      */
     public function testBlock($response)
     {
-        $this->pay($response->SessionId);
-        return $this->checkStatus($response->OrderId, TransactionStatus::STATUS_AUTHORIZED);
+        $this->tester->amPay($this->eWallet, $response->SessionId, $response->OrderId, TransactionStatus::STATUS_AUTHORIZED);
+
+        return ['OrderId' => $response->OrderId, 'Amount' => $response->Amount];
     }
 
     /**
      * @depends testBlock
      * @group block
-     * @param PayStatusResponse $response
+     * @param array $parameters
      */
-    public function testUnblock($response)
+    public function testUnblock($parameters)
     {
-        $orderId = $response->OrderId;
+        $orderId = $parameters['OrderId'];
+        $amount = $parameters['Amount'];
 
-        $response = $this->eWallet->payment()->unblock(new UnblockCommand($orderId, $response->Amount));
+        $response = $this->eWallet->payment()->unblock(new UnblockCommand($orderId, $amount));
 
         static::assertEquals('True', $response->Success);
 
-        $this->checkStatus($response->OrderId, TransactionStatus::STATUS_VOIDED);
+        $this->tester->amCheckOrder($this->eWallet, $response->OrderId, TransactionStatus::STATUS_VOIDED);
 
     }
 

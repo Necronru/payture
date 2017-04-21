@@ -10,20 +10,22 @@ use Necronru\Payture\EWallet\User\Command\UpdateCommand;
 
 class UserTest extends \Codeception\Test\Unit
 {
-    protected $credentials = ['Merchant', '123'];
-    protected $user = [];
+    /**
+     * @var EWallet
+     */
+    private $service;
 
-    public function setUp()
+    protected function _before()
     {
-        return parent::setUp();
+        $this->service = new EWallet(new Client(['base_uri' => $_ENV['PAYTURE_API']]), $_ENV['PAYTURE_TERMINAL_ID'], $_ENV['PAYTURE_TERMINAL_PASSWORD']);
     }
 
     public function testRegister()
     {
         $user = [uniqid('unit_test_') . '@ya.ru', '2645363', '79999999999'];
-        $eWallet = new EWallet(new Client(['base_uri' => 'https://sandbox2.payture.com/']), $this->credentials[0], $this->credentials[1]);
 
-        $response = $eWallet->user()->register(new RegisterCommand($user[0], $user[1], $user[2]));
+        $response = $this->service
+            ->user()->register(new RegisterCommand($user[0], $user[1], $user[2]));
 
         static::assertEquals('True', $response->Success);
         static::assertEquals($user[0], $response->VWUserLgn);
@@ -33,12 +35,12 @@ class UserTest extends \Codeception\Test\Unit
 
     /**
      * @depends testRegister
+     * @param $user
      */
     public function testUpdate($user)
     {
-        $eWallet = new EWallet(new Client(['base_uri' => 'https://sandbox2.payture.com/']), $this->credentials[0], $this->credentials[1]);
-
-        $response = $eWallet->user()->update(new UpdateCommand($user[0], $user[1], '79999999991'));
+        $response = $this->service
+            ->user()->update(new UpdateCommand($user[0], $user[1], '79999999991'));
 
         static::assertEquals('True', $response->Success);
         static::assertEquals($user[0], $response->VWUserLgn);
@@ -48,12 +50,11 @@ class UserTest extends \Codeception\Test\Unit
 
     /**
      * @depends testRegister
+     * @param $user
      */
     public function testCheck($user)
     {
-        $eWallet = new EWallet(new Client(['base_uri' => 'https://sandbox2.payture.com/']), $this->credentials[0], $this->credentials[1]);
-
-        $response = $eWallet->user()->check(new CheckCommand($user[0], $user[1]));
+        $response = $this->service->user()->check(new CheckCommand($user[0], $user[1]));
 
         static::assertEquals('True', $response->Success);
         static::assertEquals($user[0], $response->VWUserLgn);
@@ -63,12 +64,12 @@ class UserTest extends \Codeception\Test\Unit
 
     /**
      * @depends testCheck
+     * @param $user
      */
     public function testDelete($user)
     {
-        $eWallet = new EWallet(new Client(['base_uri' => 'https://sandbox2.payture.com/']), $this->credentials[0], $this->credentials[1]);
-
-        $response = $eWallet->user()->delete(new DeleteCommand($user[0]));
+        $response = $this->service
+            ->user()->delete(new DeleteCommand($user[0]));
 
         static::assertEquals('True', $response->Success);
         static::assertEquals($user[0], $response->VWUserLgn);
