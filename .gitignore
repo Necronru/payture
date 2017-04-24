@@ -5,5 +5,4 @@ vendor/*
 /bin/
 
 tests/_output/*
-tests/_output/*
 tests/.env

@@ -20,9 +20,13 @@ class UserTest extends \Codeception\Test\Unit
         $this->service = new EWallet(new Client(['base_uri' => $_ENV['PAYTURE_API']]), $_ENV['PAYTURE_TERMINAL_ID'], $_ENV['PAYTURE_TERMINAL_PASSWORD']);
     }
 
+    /**
+     * @group register
+     * @return [type] [description]
+     */
     public function testRegister()
     {
-        $user = [uniqid('unit_test_') . '@ya.ru', '2645363', '79999999999'];
+        $user = [uniqid('unit_test_') . '@ya.ru', '2645363', '79001234567'];
 
         $response = $this->service
             ->user()->register(new RegisterCommand($user[0], $user[1], $user[2]));

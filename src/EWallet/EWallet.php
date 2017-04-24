@@ -6,6 +6,7 @@ namespace Necronru\Payture\EWallet;
 
 use GuzzleHttp\ClientInterface;
 use Necronru\Payture\EWallet\Card\CardService;
+use Necronru\Payture\EWallet\Notification\NotificationService;
 use Necronru\Payture\EWallet\Payment\PaymentService;
 use Necronru\Payture\EWallet\User\UserService;
 
@@ -27,6 +28,11 @@ class EWallet
     private $_user;
 
     /**
+     * @var NotificationService
+     */
+    private $_notification;
+
+    /**
      * EWallet constructor.
      * @param ClientInterface $client
      * @param string $vmId
@@ -36,9 +42,10 @@ class EWallet
     {
         $transport = new EWalletTransport($client, $vmId, $vmPassword);
 
-        $this->_card    = new CardService($transport);
+        $this->_card = new CardService($transport);
         $this->_payment = new PaymentService($transport);
-        $this->_user    = new UserService($transport);
+        $this->_user = new UserService($transport);
+        $this->_notification = new NotificationService();
     }
 
     /**
@@ -60,5 +67,13 @@ class EWallet
     public function user()
     {
         return $this->_user;
+    }
+
+    /**
+     * @return NotificationService
+     */
+    public function notification()
+    {
+        return $this->_notification;
     }
 }

@@ -5,7 +5,6 @@ namespace Necronru\Payture\EWallet\Card;
 
 use Necronru\Payture\EWallet\Card\Command\GetCardListCommand;
 use Necronru\Payture\EWallet\Card\Response\GetCardList\Item;
-use Necronru\Payture\EWallet\Payment\Response\RefundResponse;
 use Necronru\Payture\EWallet\EWalletTransport;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Necronru\Payture\EWallet\Card\Response\GetCardList\GetList;
@@ -32,7 +31,9 @@ class CardService implements CardServiceInterface
 
                 $item = new Item();
 
-                foreach ($accessor->getValue($arr, '[@attributes]') as $key => $value) {
+                $list = (array) $accessor->getValue($arr, '[@attributes]');
+
+                foreach ($list as $key => $value) {
                     $item->{$key} = $value;
                 }
 
