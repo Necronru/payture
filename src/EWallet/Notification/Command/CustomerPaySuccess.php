@@ -6,6 +6,9 @@ namespace Necronru\Payture\EWallet\Notification\Command;
 
 use Necronru\Payture\EWallet\AbstractNotification;
 
+/**
+ * Успешное списание средств
+ */
 class CustomerPaySuccess extends AbstractNotification
 {
     public $VWUserLgn; // payture.tester@gmail.com

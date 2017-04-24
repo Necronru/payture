@@ -1,4 +1,5 @@
 {
+  "version": "0.0.7",
   "name": "necronru/payture",
   "description": "Payture SDK",
   "type": "library",

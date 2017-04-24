@@ -6,6 +6,9 @@ namespace Necronru\Payture\EWallet\Notification\Command;
 
 use Necronru\Payture\EWallet\AbstractNotification;
 
+/**
+ * Неуспешное списание средств
+ */
 class CustomerPayFail extends AbstractNotification
 {
 

@@ -6,6 +6,9 @@ namespace Necronru\Payture\EWallet\Notification\Command;
 
 use Necronru\Payture\EWallet\AbstractNotification;
 
+/**
+ * Отправка кода подтверждения
+ */
 class CustomerSendCode extends AbstractNotification
 {
     public $Email;

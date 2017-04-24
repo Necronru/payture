@@ -6,6 +6,9 @@ namespace Necronru\Payture\EWallet\Notification\Command;
 
 use Necronru\Payture\EWallet\AbstractNotification;
 
+/**
+ * Неуспешная регистрация карты
+ */
 class CustomerAddFail extends AbstractNotification
 {
     public $VWUserLgn; // payture.tester@gmail.com
