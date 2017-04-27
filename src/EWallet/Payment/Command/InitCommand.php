@@ -91,6 +91,10 @@ class InitCommand
      */
     public $Url;
 
+    public $Product;
+
+    public $Total;
+
     public function __construct(
         $SessionType,
         $Url,
@@ -102,7 +106,9 @@ class InitCommand
         $PhoneNumber = null,
         $CardId = null,
         $TemplateTag = null,
-        $Language = null
+        $Language = null,
+        $Total = null,
+        $Product = null
     )
     {
         $this->SessionType = $SessionType;
@@ -116,6 +122,8 @@ class InitCommand
         $this->TemplateTag = $TemplateTag;
         $this->Language = $Language;
         $this->Url = $Url;
+        $this->Product = $Product;
+        $this->Total = $Total;
     }
 
 

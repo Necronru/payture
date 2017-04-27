@@ -31,8 +31,13 @@ class PaymentTest extends \Codeception\Test\Unit
             '123@ya.ru',
             '2645363',
             uniqid('test_'),
+            500 * 100,
+            '79001234567',
+            null,
+            null,
+            null,
             500,
-            '79001234567'
+            'Тестовый продукт'
         ));
 
         static::assertEquals('True', $response->Success);
