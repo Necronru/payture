@@ -5,6 +5,8 @@ namespace Necronru\Payture\EWallet\Card;
 
 
 use Necronru\Payture\EWallet\Card\Command\GetCardListCommand;
+use Necronru\Payture\EWallet\Card\Command\RemoveCardCommand;
+use Necronru\Payture\EWallet\Card\Response\Remove;
 
 interface CardServiceInterface
 {
@@ -28,7 +30,14 @@ interface CardServiceInterface
 
     /**
      * @link http://payture.com/integration/api/#ewallet_ewallet-cards_remove_
+     * @param RemoveCardCommand $command
+     * @return Remove
      */
-    public function remove();
+    public function remove(RemoveCardCommand $command);
+
+    /**
+     * @param $sessionId
+     */
+    public function getSessionLink($sessionId);
 
 }
